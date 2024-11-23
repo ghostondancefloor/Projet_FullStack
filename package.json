@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "mongodb": "^6.9.0",
-    "monk": "^7.1.2"
-  }
-}

@@ -1,0 +1,31 @@
+<!-- src/app/login/login.component.html -->
+<div class="container">
+    <form (submit)="onSubmit()">
+      <h2>Login</h2>
+      <div>
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          [(ngModel)]="form.username"
+          required
+        />
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="form.password"
+          required
+        />
+      </div>
+      <button type="submit">Login</button>
+      <div *ngIf="isLoginFailed" class="error">
+        {{ errorMessage }}
+      </div>
+    </form>
+  </div>
+  
