@@ -1,0 +1,120 @@
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f6d365, #fda085);
+    padding: 20px;
+  }
+  
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    background: #ffffff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .auth-form h2 {
+    margin-bottom: 25px;
+    color: #333333;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+  }
+  
+  .input-group {
+    width: 100%; /* Ensures input group stretches to full form width */
+    margin-bottom: 20px;
+    text-align: left;
+    position: relative;
+  }
+  
+  .input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555555;
+    font-weight: 500;
+  }
+  
+  .input-group input {
+    width: 100%; /* Input matches the width of the form */
+    padding: 12px 15px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box; /* Includes padding and border in width calculation */
+  }
+  
+  .input-group input:focus {
+    border-color: #6e8efb;
+    box-shadow: 0 0 5px rgba(110, 142, 251, 0.5);
+    outline: none;
+  }
+  
+  .btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Button stretches to form width */
+    padding: 12px;
+    background: #6e8efb;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  
+  .btn i {
+    margin-right: 5px;
+  }
+  
+  .btn:hover {
+    background: #5a7de8;
+    transform: translateY(-2px);
+  }
+  
+  .error,
+  .success {
+    width: 100%; /* Align messages with input size */
+    text-align: center;
+    margin-top: 15px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .error {
+    color: #ff4d4d;
+  }
+  
+  .success {
+    color: #28a745;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 480px) {
+    .auth-form {
+      padding: 30px 20px;
+    }
+  
+    .auth-form h2 {
+      font-size: 22px;
+    }
+  
+    .btn {
+      font-size: 14px;
+    }
+  }
+  

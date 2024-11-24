@@ -1,4 +1,3 @@
-// src/app/login/login.component.ts
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
@@ -7,6 +6,7 @@ import { StorageService } from '../services/storage.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
   form: any = {
