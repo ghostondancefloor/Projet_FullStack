@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { StorageService } from '../services/storage.service';
@@ -19,7 +20,8 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private storageService: StorageService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   onSubmit(): void {
@@ -27,11 +29,17 @@ export class LoginComponent {
 
     this.authService.login({ username, password }).subscribe({
       next: (data) => {
-        // Save user data (token is managed via cookies)
         this.storageService.saveUser(data);
-
         this.isLoginFailed = false;
-        // Navigate to home page
+
+        // Show success popup
+        this.snackBar.open(`🎉 Welcome back, ${data.username}!`, 'Close', {
+          duration: 5000, // Duration in milliseconds
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+        });
+
+        // Redirect to the calendar page !!!!!
         this.router.navigate(['/']);
       },
       error: (err) => {

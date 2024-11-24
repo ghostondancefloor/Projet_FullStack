@@ -1,0 +1,10 @@
+.mat-snack-bar-container {
+    background-color: #4caf50 !important; /* Green background for success */
+    color: #fff !important; /* White text */
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
