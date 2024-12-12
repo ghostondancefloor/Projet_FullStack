@@ -4,6 +4,6 @@ const router = express.Router();
 const { authJwt } = require('../middlewares');
 const userController = require('../controllers/user.controller');
 
-router.get('/profile', [authJwt.verifyToken], userController.userProfile);
+router.get('/profile', [authJwt.verifyToken], userController.getProfile);
 
 module.exports = router;

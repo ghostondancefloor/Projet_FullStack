@@ -1,9 +1,42 @@
-<!-- src/app/profile/profile.component.html -->
-<div class="container">
-    <h2>Profile</h2>
-    <p><strong>Username:</strong> {{ currentUser.username }}</p>
-    <p><strong>Email:</strong> {{ currentUser.email }}</p>
-    <p><strong>Roles:</strong> {{ currentUser.roles.join(', ') }}</p>
-    <button (click)="logout()">Logout</button>
+<div class="container mt-4">
+  <h2>Profile</h2>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center">
+    <p>Loading profile...</p>
   </div>
-  
+
+  <!-- Error State -->
+  <div *ngIf="!isLoading && errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Profile Details -->
+  <div *ngIf="!isLoading && !errorMessage" class="profile-details">
+    <p><strong>Username:</strong> {{ userProfile.username }}</p>
+    <p><strong>Email:</strong> {{ userProfile.email }}</p>
+  </div>
+
+  <!-- Habits Table -->
+  <div *ngIf="!isLoading && !errorMessage">
+    <h3>Habits</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let habit of habits">
+          <td>{{ habit.title }}</td>
+          <td>{{ habit.startDate | date: 'short' }}</td>
+          <td>{{ habit.endDate | date: 'short' }}</td>
+          <td>{{ habit.description }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

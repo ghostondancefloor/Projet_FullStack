@@ -57,10 +57,9 @@ app.set('view engine', 'ejs');
 
 // Routes
 app.use('/', indexRouter);
-app.use('/users', userRouter);
 app.use('/api/habits', habitRouter);
 app.use('/api/auth', authRouter);
-
+app.use('/api/user', userRouter);
 // Error Handling
 app.use((req, res, next) => {
   next(createError(404));

@@ -8,7 +8,7 @@ import listPlugin from '@fullcalendar/list';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { AuthService } from '../services/auth.service';
 import { HabitService } from '../services/habit.service';
-import { StorageService } from '../services/storage.service'; // Added import for StorageService
+import { StorageService } from '../services/storage.service';
 import { AddHabitDialogComponent } from './add-habit-dialog/add-habit-dialog.component';
 
 @Component({
@@ -41,7 +41,7 @@ export class CalendarComponent implements OnInit {
     private habitService: HabitService,
     public dialog: MatDialog,
     private authService: AuthService,
-    private storageService: StorageService, // Inject StorageService
+    private storageService: StorageService,
     private router: Router
   ) {}
 
@@ -84,10 +84,14 @@ export class CalendarComponent implements OnInit {
     alert(`Event: ${info.event.title}\nDescription: ${info.event.extendedProps.description}`);
   }
 
+  goToProfile(): void {
+    this.router.navigate(['/profile']); // Navigate to profile page
+  }
+
   logout(): void {
     this.authService.logout().subscribe({
       next: () => {
-        this.storageService.clearUser(); // Clear session data
+        this.storageService.clearUser();
         this.router.navigate(['/login']);
       },
       error: (err) => {

@@ -5,11 +5,8 @@ const User = db.user;
 
 // Verify Token Middleware
 verifyToken = (req, res, next) => {
-  let token =
-    req.headers['x-access-token'] ||
-    req.headers['authorization']?.split(' ')[1]; // Extract Bearer token
-
-  console.log('Token received:', token); // Debug log
+  let token = req.headers['authorization']?.split(' ')[1];
+  console.log('Token received:', token); // Debug: Check if token is present
 
   if (!token) {
     return res.status(403).send({ message: 'No token provided!' });
@@ -17,13 +14,15 @@ verifyToken = (req, res, next) => {
 
   jwt.verify(token, config.secret, (err, decoded) => {
     if (err) {
-      console.error('JWT Verification Error:', err); // Debug log
+      console.error('JWT Verification Error:', err.message); // Debug: Log verification error
       return res.status(401).send({ message: 'Unauthorized!' });
     }
-    req.userId = decoded.id;
+    console.log('Decoded user ID:', decoded.id); // Debug: Check decoded ID
+    req.userId = decoded.id; // Attach user ID to the request
     next();
   });
 };
+
 
 
 // Check Admin Role Middleware
