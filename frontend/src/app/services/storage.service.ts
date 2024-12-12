@@ -39,6 +39,12 @@ export class StorageService {
     return null;
   }
 
+  clearUser(): void {
+    window.sessionStorage.removeItem(USER_KEY); // Remove user data from sessionStorage
+    this.isLoggedInSubject.next(false); // Emit logout event
+  }
+  
+
   // Clear storage and update login status
   public clean(): void {
     window.sessionStorage.clear();

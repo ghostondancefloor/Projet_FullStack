@@ -29,22 +29,23 @@ export class LoginComponent {
 
     this.authService.login({ username, password }).subscribe({
       next: (data) => {
+        // Save the user data to sessionStorage
         this.storageService.saveUser(data);
-        this.isLoginFailed = false;
 
-        // Show success popup
+        // Display success message
         this.snackBar.open(`🎉 Welcome back, ${data.username}!`, 'Close', {
-          duration: 5000, // Duration in milliseconds
+          duration: 5000,
           verticalPosition: 'top',
           horizontalPosition: 'center',
         });
 
-        // Redirect to the calendar page !!!!!
-        this.router.navigate(['/']);
+        // Redirect to the calendar page
+        this.router.navigate(['/calendar']);
       },
       error: (err) => {
-        this.errorMessage = err.error.message;
+        this.errorMessage = err.error.message || 'An error occurred during login.';
         this.isLoginFailed = true;
+        console.error('Login Error:', err); // Debugging log
       },
     });
   }

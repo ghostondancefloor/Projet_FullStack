@@ -1,12 +1,10 @@
-// routes/habit.routes.js
 const express = require('express');
 const router = express.Router();
 const habitController = require('../controllers/habit.controller');
+const { authJwt } = require('../middlewares');
 
-router.get('/', habitController.getAllHabits);
-router.post('/', habitController.createHabit);
-router.get('/:id', habitController.getHabitById);
-router.put('/:id', habitController.updateHabit);
-router.delete('/:id', habitController.deleteHabit);
+router.get('/user',authJwt.verifyToken, habitController.getUserHabits);
+
+router.post('/',authJwt.verifyToken, habitController.createHabit);
 
 module.exports = router;

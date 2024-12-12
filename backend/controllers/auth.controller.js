@@ -46,14 +46,11 @@ exports.signin = async (req, res) => {
       expiresIn: 86400, // 24 hours
     });
 
-    // Store token in session
-    req.session.token = token;
-
     res.status(200).send({
       id: user._id,
       username: user.username,
       email: user.email,
-      roles: user.roles,
+      accessToken: token,
     });
   } catch (err) {
     res.status(500).send({ message: err.message });

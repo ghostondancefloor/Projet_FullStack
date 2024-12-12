@@ -1,35 +1,11 @@
-// models/habit.model.js
-const { ObjectId } = require('mongodb');
-const { getDb } = require('../config/db');
+const mongoose = require('mongoose');
 
-class HabitModel {
-  static getAllHabits() {
-    const db = getDb();
-    return db.collection('habits').find().toArray();
-  }
+const HabitSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  startDate: { type: Date, required: true },
+  endDate: { type: Date, required: true },
+  description: { type: String },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+});
 
-  static getHabitById(id) {
-    const db = getDb();
-    return db.collection('habits').findOne({ _id: ObjectId(id) });
-  }
-
-  static createHabit(habit) {
-    const db = getDb();
-    return db.collection('habits').insertOne(habit);
-  }
-
-  static updateHabit(id, updates) {
-    const db = getDb();
-    return db.collection('habits').updateOne(
-      { _id: ObjectId(id) },
-      { $set: updates }
-    );
-  }
-
-  static deleteHabit(id) {
-    const db = getDb();
-    return db.collection('habits').deleteOne({ _id: ObjectId(id) });
-  }
-}
-
-module.exports = HabitModel;
+module.exports = mongoose.model('Habit', HabitSchema);
