@@ -1,8 +1,5 @@
-.container {
-    max-width: 1200px;
-  }
-  
-  .full-calendar {
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  }
-  
+.calendar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}

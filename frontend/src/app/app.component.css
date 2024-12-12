@@ -1,10 +1,24 @@
-.mat-snack-bar-container {
-    background-color: #4caf50 !important; /* Green background for success */
-    color: #fff !important; /* White text */
-    font-size: 16px;
-    font-family: 'Roboto', sans-serif;
-    text-align: center;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
+/* Container for the whole application */
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar takes fixed space */
+app-sidebar {
+  width: 250px;
+  flex-shrink: 0;
+}
+
+/* Main content area adjusts to the remaining space */
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Special case for unauthenticated pages */
+.main-content.auth {
+  margin-left: 0;
+  padding: 0;
+}
