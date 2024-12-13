@@ -11,27 +11,39 @@ export class HabitService {
 
   constructor(private http: HttpClient, private storageService: StorageService) {}
 
+  // Helper method to get headers with Authorization token
+  private getHeaders(): HttpHeaders {
+    const user = this.storageService.getUser();
+    const token = user?.accessToken;
+
+    if (!token) {
+      console.error('No token found for Authorization');
+    }
+
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
+
   // Fetch all habits for the logged-in user
   getHabitsForUser(): Observable<any[]> {
-    const user = this.storageService.getUser();
-    const token = user?.accessToken; // Retrieve token from sessionStorage
-  
-    if (!token) {
-      console.error('No token found for Authorization'); // Debug log
-    }
-  
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<any[]>(`${this.apiUrl}/user`, { headers });
+    return this.http.get<any[]>(`${this.apiUrl}/user`, { headers: this.getHeaders() });
   }
-  
+
+  // Fetch events for the calendar
+  getHabitEvents(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/events`, { headers: this.getHeaders() });
+  }
 
   // Add a new habit
-  addHabit(habit: { title: string; startDate: string; endDate: string; description: string }): Observable<any> {
-    const user = this.storageService.getUser();
-    const token = user?.accessToken; // Retrieve token from sessionStorage
-
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    return this.http.post<any>(this.apiUrl, habit, { headers });
+  addHabit(habit: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, habit, { headers: this.getHeaders() });
+  }
+  updateHabit(habitId: string, updatedHabit: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${habitId}`, updatedHabit, {
+      headers: this.getHeaders(),
+    });
+  }
+  // Delete a habit by ID
+  deleteHabit(habitId: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${habitId}`, { headers: this.getHeaders() });
   }
 }

@@ -10,7 +10,7 @@ import { AuthService } from '../services/auth.service';
 import { HabitService } from '../services/habit.service';
 import { StorageService } from '../services/storage.service';
 import { AddHabitDialogComponent } from './add-habit-dialog/add-habit-dialog.component';
-
+import { ModifyHabitDialogComponent } from './modify-habit-dialog/modify-habit-dialog.component';
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -50,14 +50,14 @@ export class CalendarComponent implements OnInit {
   }
 
   loadHabits(): void {
-    this.habitService.getHabitsForUser().subscribe({
-      next: (habits) => {
-        this.calendarOptions.events = habits.map((habit: any) => ({
-          id: habit._id,
-          title: habit.title,
-          start: habit.startDate,
-          end: habit.endDate,
-          description: habit.description,
+    this.habitService.getHabitEvents().subscribe({
+      next: (events) => {
+        this.calendarOptions.events = events.map((event) => ({
+          id: event.id, // Use the habit ID here
+          title: event.title,
+          start: event.start,
+          end: event.end,
+          description: event.description,
         }));
       },
       error: (err) => {
@@ -65,24 +65,58 @@ export class CalendarComponent implements OnInit {
       },
     });
   }
+  
+  
+  
 
   openAddHabitDialog(): void {
     const dialogRef = this.dialog.open(AddHabitDialogComponent, {
       width: '400px',
     });
-
+  
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.habitService.addHabit(result).subscribe(() => {
-          this.loadHabits();
+        this.habitService.addHabit(result).subscribe({
+          next: () => {
+            alert('Habit added successfully!');
+            this.loadHabits(); // Refresh the calendar events
+          },
+          error: (err) => {
+            console.error('Error adding habit:', err);
+          },
         });
       }
     });
   }
-
-  handleEventClick(info: any): void {
-    alert(`Event: ${info.event.title}\nDescription: ${info.event.extendedProps.description}`);
+  
+  deleteHabit(habitId: string): void {
+    this.habitService.deleteHabit(habitId).subscribe({
+      next: () => {
+        alert('Habit deleted successfully!');
+        this.loadHabits(); // Refresh habits after deletion
+      },
+      error: (err) => {
+        console.error('Error deleting habit:', err);
+      },
+    });
   }
+  handleEventClick(info: any): void {
+    const habit = {
+      _id: info.event.id,
+      habit: info.event.title,
+      description: info.event.extendedProps.description,
+      date: info.event.start.toISOString().split('T')[0],
+      time: info.event.start.toISOString().split('T')[1].slice(0, 5),
+      duration: (new Date(info.event.end).getTime() - new Date(info.event.start).getTime()) / 60000,
+    };
+  
+    if (confirm(`Do you want to modify the habit: "${info.event.title}"?`)) {
+      this.modifyHabit(habit);
+    }
+  }
+  
+  
+  
 
   goToProfile(): void {
     this.router.navigate(['/profile']); // Navigate to profile page
@@ -98,6 +132,19 @@ export class CalendarComponent implements OnInit {
         console.error('Error during logout:', err);
         this.router.navigate(['/login']);
       },
+    });
+  }
+
+  modifyHabit(habit: any): void {
+    const dialogRef = this.dialog.open(ModifyHabitDialogComponent, {
+      width: '400px',
+      data: habit // Pass the habit to be modified
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadHabits(); // Reload calendar events after modification
+      }
     });
   }
 }

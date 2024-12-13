@@ -1,25 +1,45 @@
 <div class="profile-container">
+  <!-- Display user profile information -->
   <h1>Profile</h1>
   <p><strong>Username:</strong> {{ userProfile.username }}</p>
   <p><strong>Email:</strong> {{ userProfile.email }}</p>
 
+  <!-- Display user's habits -->
   <h3>Habits</h3>
   <table>
     <thead>
       <tr>
         <th>Title</th>
-        <th>Start Date</th>
-        <th>End Date</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Duration</th>
         <th>Description</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let habit of habits">
-        <td>{{ habit.title }}</td>
-        <td>{{ habit.startDate | date: 'short' }}</td>
-        <td>{{ habit.endDate | date: 'short' }}</td>
-        <td>{{ habit.description }}</td>
+        <td>{{ habit.habit }}</td> <!-- Habit title -->
+        <td>{{ habit.date | date: 'shortDate' }}</td> <!-- Date of the habit -->
+        <td>{{ habit.time }}</td> <!-- Time of the habit -->
+        <td>{{ habit.duration }} minutes</td> <!-- Duration of the habit -->
+        <td>{{ habit.description }}</td> <!-- Description of the habit -->
+        <td>
+          <!-- Actions: Delete and Modify -->
+          <button mat-raised-button color="warn" (click)="deleteHabit(habit._id)">
+            Delete
+          </button>
+          <button mat-raised-button color="primary" (click)="modifyHabit(habit)">
+            Modify
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>
+
+  <!-- Loading spinner -->
+  <div *ngIf="isLoading">Loading profile...</div>
+
+  <!-- Error message -->
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 </div>

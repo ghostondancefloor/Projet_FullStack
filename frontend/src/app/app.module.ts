@@ -2,11 +2,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,6 +22,7 @@ import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { ModifyHabitDialogComponent } from './calendar/modify-habit-dialog/modify-habit-dialog.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     RegisterComponent,
     CalendarComponent,
     AddHabitDialogComponent,
-    SidebarComponent
+    SidebarComponent,
+    ModifyHabitDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +52,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     MatSnackBarModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    MatSelectModule,
+    MatOptionModule,
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent]

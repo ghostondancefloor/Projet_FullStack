@@ -19,3 +19,12 @@ th, td {
 th {
   background-color: #f4f4f4;
 }
+
+button {
+  margin-right: 10px;
+}
+
+.error-message {
+  color: red;
+  margin-top: 20px;
+}

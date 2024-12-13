@@ -51,9 +51,9 @@ app.use(logger('dev'));
 // Static Files (if needed)
 // app.use(express.static(path.join(__dirname, 'public')));
 
-// View Engine Setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+// // View Engine Setup
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'ejs');
 
 // Routes
 app.use('/', indexRouter);

@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Modify Habit</h2>
+<mat-dialog-content>
+  <form [formGroup]="habitForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Habit</mat-label>
+      <input matInput formControlName="habit" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <input matInput formControlName="description" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Time</mat-label>
+      <input matInput type="time" formControlName="time" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Duration (minutes)</mat-label>
+      <input matInput type="number" formControlName="duration" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
+</mat-dialog-actions>
