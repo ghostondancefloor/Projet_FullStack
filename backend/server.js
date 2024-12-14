@@ -8,7 +8,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const createError = require('http-errors');
-
+const rateLimit = require('express-rate-limit');
 const { connectToMongo } = require('./config/db');
 const config = require('./config/auth.config');
 
@@ -32,7 +32,13 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: 'Too many requests, please try again later.',
+});
 
+app.use(limiter);
 // Session Management with cookie-session
 app.use(
   cookieSession({

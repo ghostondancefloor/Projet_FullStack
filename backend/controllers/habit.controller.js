@@ -10,15 +10,18 @@ exports.createHabit = async (req, res) => {
       return res.status(400).json({ message: 'Required fields are missing' });
     }
 
-    const processedDays = {
-      one: days.one ? { date: 'Monday', status: 'Pending' } : null,
-      two: days.two ? { date: 'Tuesday', status: 'Pending' } : null,
-      three: days.three ? { date: 'Wednesday', status: 'Pending' } : null,
-      four: days.four ? { date: 'Thursday', status: 'Pending' } : null,
-      five: days.five ? { date: 'Friday', status: 'Pending' } : null,
-      six: days.six ? { date: 'Saturday', status: 'Pending' } : null,
-      seven: days.seven ? { date: 'Sunday', status: 'Pending' } : null,
-    };
+    // Process days for weekly habits
+    const processedDays = days
+      ? {
+          one: days.one ? { date: 'Monday', status: 'Pending' } : null,
+          two: days.two ? { date: 'Tuesday', status: 'Pending' } : null,
+          three: days.three ? { date: 'Wednesday', status: 'Pending' } : null,
+          four: days.four ? { date: 'Thursday', status: 'Pending' } : null,
+          five: days.five ? { date: 'Friday', status: 'Pending' } : null,
+          six: days.six ? { date: 'Saturday', status: 'Pending' } : null,
+          seven: days.seven ? { date: 'Sunday', status: 'Pending' } : null,
+        }
+      : {};
 
     const newHabit = new Habit({
       habit,
@@ -46,7 +49,7 @@ exports.getUserHabits = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized: Missing userId' });
     }
 
-    const habits = await Habit.find({ userId: req.userId });
+    const habits = await Habit.find({ userId: req.userId }).select('-__v'); // Exclude version field
     res.status(200).json(habits);
   } catch (error) {
     console.error('Error fetching user habits:', error);
@@ -56,71 +59,70 @@ exports.getUserHabits = async (req, res) => {
 
 exports.getHabitEvents = async (req, res) => {
   try {
-    const habits = await Habit.find({ userId: req.userId });
+    const habits = await Habit.find({ userId: req.userId }).select('habit date time duration frequency days end description');
     const events = [];
+    const today = new Date();
+    const sixMonthsFromNow = new Date();
+    sixMonthsFromNow.setMonth(today.getMonth() + 6);
 
     habits.forEach((habit) => {
       const startDate = new Date(habit.date);
-      const endDate = habit.end ? new Date(habit.end) : null;
+      const endDate = habit.end ? new Date(habit.end) : sixMonthsFromNow;
+
+      // Skip habits outside of the defined timeframe
+      if (endDate < today) return;
 
       const [hours, minutes] = habit.time.split(':').map(Number);
 
       if (habit.frequency === 'Daily') {
         let currentDate = new Date(startDate);
-        while (!endDate || currentDate <= endDate) {
-          const eventStart = new Date(currentDate);
-          eventStart.setHours(hours, minutes);
-
-          const eventEnd = new Date(eventStart);
-          eventEnd.setMinutes(eventEnd.getMinutes() + habit.duration);
-
-          events.push({
-            id: habit._id.toString(),
-            title: habit.habit,
-            start: eventStart.toISOString(),
-            end: eventEnd.toISOString(),
-            description: habit.description,
-          });
-
+        while (currentDate <= endDate) {
+          events.push(generateEvent(habit, currentDate, hours, minutes));
           currentDate.setDate(currentDate.getDate() + 1);
         }
       } else if (habit.frequency === 'Weekly') {
         const daysOfWeek = Object.keys(habit.days).filter((key) => habit.days[key]);
+
         daysOfWeek.forEach((dayKey) => {
           const targetDay = ['one', 'two', 'three', 'four', 'five', 'six', 'seven'].indexOf(dayKey) + 1;
           let currentDate = new Date(startDate);
 
+          // Align current date to the target weekday
           while (currentDate.getDay() !== targetDay) {
             currentDate.setDate(currentDate.getDate() + 1);
           }
 
-          while (!endDate || currentDate <= endDate) {
-            const eventStart = new Date(currentDate);
-            eventStart.setHours(hours, minutes);
-
-            const eventEnd = new Date(eventStart);
-            eventEnd.setMinutes(eventEnd.getMinutes() + habit.duration);
-
-            events.push({
-              id: habit._id.toString(),
-              title: habit.habit,
-              start: eventStart.toISOString(),
-              end: eventEnd.toISOString(),
-              description: habit.description,
-            });
-
-            currentDate.setDate(currentDate.getDate() + 7);
+          while (currentDate <= endDate) {
+            events.push(generateEvent(habit, currentDate, hours, minutes));
+            currentDate.setDate(currentDate.getDate() + 7); // Increment by a week
           }
         });
       }
     });
 
+    console.log(`Generated ${events.length} events`);
     res.status(200).json(events);
   } catch (error) {
     console.error('Error fetching habit events:', error);
     res.status(500).json({ message: 'Failed to fetch events' });
   }
 };
+
+function generateEvent(habit, date, hours, minutes) {
+  const eventStart = new Date(date);
+  eventStart.setHours(hours, minutes);
+
+  const eventEnd = new Date(eventStart);
+  eventEnd.setMinutes(eventEnd.getMinutes() + habit.duration);
+
+  return {
+    id: habit._id.toString(),
+    title: habit.habit,
+    start: eventStart.toISOString(),
+    end: eventEnd.toISOString(),
+    description: habit.description,
+  };
+}
 
 exports.deleteHabit = async (req, res) => {
   try {
@@ -141,27 +143,13 @@ exports.deleteHabit = async (req, res) => {
 exports.updateHabit = async (req, res) => {
   try {
     const { id } = req.params;
-    const { date, status } = req.body;
+    const updatedFields = req.body;
 
-    const habit = await Habit.findById(id);
+    const habit = await Habit.findByIdAndUpdate(id, updatedFields, { new: true });
     if (!habit) {
       return res.status(404).json({ message: 'Habit not found' });
     }
 
-    const dayKey = Object.keys(habit.days).find((key) => habit.days[key]?.date === date);
-    if (!dayKey) {
-      return res.status(404).json({ message: 'Day not found in habit' });
-    }
-
-    habit.days[dayKey].status = status;
-
-    if (status === 'Done') {
-      habit.streak += 1;
-    } else if (status === 'Not Done') {
-      habit.streak = 0;
-    }
-
-    await habit.save();
     res.status(200).json(habit);
   } catch (error) {
     console.error('Error updating habit:', error);
