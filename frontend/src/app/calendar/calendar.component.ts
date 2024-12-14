@@ -49,26 +49,6 @@ export class CalendarComponent implements OnInit {
     this.loadHabits();
   }
 
-  loadHabits(): void {
-    this.habitService.getHabitEvents().subscribe({
-      next: (events) => {
-        this.calendarOptions.events = events.map((event) => ({
-          id: event.id, // Use the habit ID here
-          title: event.title,
-          start: event.start,
-          end: event.end,
-          description: event.description,
-        }));
-      },
-      error: (err) => {
-        console.error('Error loading habits:', err);
-      },
-    });
-  }
-  
-  
-  
-
   openAddHabitDialog(): void {
     const dialogRef = this.dialog.open(AddHabitDialogComponent, {
       width: '400px',
@@ -76,18 +56,26 @@ export class CalendarComponent implements OnInit {
   
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.habitService.addHabit(result).subscribe({
-          next: () => {
-            alert('Habit added successfully!');
-            this.loadHabits(); // Refresh the calendar events
-          },
-          error: (err) => {
-            console.error('Error adding habit:', err);
-          },
-        });
+        this.loadHabits(); // Refresh calendar after adding a habit
       }
     });
   }
+  
+  loadHabits(): void {
+  this.habitService.getHabitEvents().subscribe({
+    next: (events) => {
+      console.log('Loaded Events:', events); // Debugging
+      this.calendarOptions.events = events;
+    },
+    error: (err) => {
+      console.error('Error loading habits:', err);
+    },
+  });
+}
+
+  
+  
+  
   
   deleteHabit(habitId: string): void {
     this.habitService.deleteHabit(habitId).subscribe({

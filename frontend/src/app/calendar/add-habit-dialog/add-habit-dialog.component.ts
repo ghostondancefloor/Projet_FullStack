@@ -10,6 +10,17 @@ import { HabitService } from '../../services/habit.service';
 })
 export class AddHabitDialogComponent {
   habitForm: FormGroup;
+  
+  // Define days of the week
+  daysOfWeek = [
+    { key: 'one', label: 'Monday' },
+    { key: 'two', label: 'Tuesday' },
+    { key: 'three', label: 'Wednesday' },
+    { key: 'four', label: 'Thursday' },
+    { key: 'five', label: 'Friday' },
+    { key: 'six', label: 'Saturday' },
+    { key: 'seven', label: 'Sunday' },
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -19,21 +30,42 @@ export class AddHabitDialogComponent {
     this.habitForm = this.fb.group({
       habit: ['', Validators.required],
       description: ['', Validators.required],
-      end: [''],
       frequency: ['', Validators.required],
+      days: this.fb.group({
+        one: [false], // Default unchecked
+        two: [false],
+        three: [false],
+        four: [false],
+        five: [false],
+        six: [false],
+        seven: [false],
+      }),
       date: ['', Validators.required],
       time: ['', Validators.required],
       duration: ['', [Validators.required, Validators.min(1)]], // Duration in minutes
+      end: [''],
     });
-    
   }
 
-  /**
-   * Handles the form submission to add a habit.
-   */
   onSubmit(): void {
     if (this.habitForm.valid) {
-      const habitData = this.habitForm.value;
+      const formValue = this.habitForm.value;
+      const days = formValue.days || {};
+      const processedDays = {
+        one: days.one || false,
+        two: days.two || false,
+        three: days.three || false,
+        four: days.four || false,
+        five: days.five || false,
+        six: days.six || false,
+        seven: days.seven || false,
+      };
+  
+      const habitData = {
+        ...formValue,
+        days: processedDays,
+      };
+  
       this.habitService.addHabit(habitData).subscribe({
         next: () => {
           this.dialogRef.close(true);
@@ -45,10 +77,8 @@ export class AddHabitDialogComponent {
     }
   }
   
+  
 
-  /**
-   * Handles cancellation of the dialog.
-   */
   onCancel(): void {
     this.dialogRef.close();
   }

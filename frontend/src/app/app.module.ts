@@ -16,13 +16,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddHabitDialogComponent } from './calendar/add-habit-dialog/add-habit-dialog.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { ModifyHabitDialogComponent } from './calendar/modify-habit-dialog/modify-habit-dialog.component';
 import { authInterceptorProviders } from './helpers/auth.interceptor';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { ModifyHabitDialogComponent } from './calendar/modify-habit-dialog/modify-habit-dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +34,7 @@ import { ModifyHabitDialogComponent } from './calendar/modify-habit-dialog/modif
     CalendarComponent,
     AddHabitDialogComponent,
     SidebarComponent,
-    ModifyHabitDialogComponent
+    ModifyHabitDialogComponent,
   ],
   imports: [
     BrowserModule,

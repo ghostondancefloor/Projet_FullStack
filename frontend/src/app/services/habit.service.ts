@@ -33,15 +33,39 @@ export class HabitService {
     return this.http.get<any[]>(`${this.apiUrl}/events`, { headers: this.getHeaders() });
   }
 
+  // Fetch summary data for weekly/monthly habits
+  getSummary(period: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/summary?period=${period}`, {
+      headers: this.getHeaders(),
+    });
+  }
+
   // Add a new habit
   addHabit(habit: any): Observable<any> {
     return this.http.post<any>(this.apiUrl, habit, { headers: this.getHeaders() });
   }
+
+  // Update habit details
   updateHabit(habitId: string, updatedHabit: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/${habitId}`, updatedHabit, {
       headers: this.getHeaders(),
     });
   }
+
+  // Update habit status for a specific day
+  updateHabitStatus(habitId: string, statusUpdate: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${habitId}/status`, statusUpdate, {
+      headers: this.getHeaders(),
+    });
+  }
+
+  updateHabitDayStatus(habitId: string, date: string, status: string): Observable<any> {
+    const url = `${this.apiUrl}/${habitId}/update-day-status`;
+    return this.http.put(url, { date, status }, { headers: this.getHeaders() });
+  }
+  
+  
+
   // Delete a habit by ID
   deleteHabit(habitId: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${habitId}`, { headers: this.getHeaders() });

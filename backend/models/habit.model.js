@@ -33,13 +33,13 @@ const habitSchema = new mongoose.Schema({
     default: 0,
   },
   days: {
-    one: { type: String, default: null },
-    two: { type: String, default: null },
-    three: { type: String, default: null },
-    four: { type: String, default: null },
-    five: { type: String, default: null },
-    six: { type: String, default: null },
-    seven: { type: String, default: null },
+    one: { type: Object, default: null }, // Allows objects for each day
+    two: { type: Object, default: null },
+    three: { type: Object, default: null },
+    four: { type: Object, default: null },
+    five: { type: Object, default: null },
+    six: { type: Object, default: null },
+    seven: { type: Object, default: null },
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
