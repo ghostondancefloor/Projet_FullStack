@@ -6,8 +6,6 @@ const dbConfig = require('./db.config');
 async function connectToMongo() {
   try {
     await mongoose.connect(dbConfig.uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
       dbName: dbConfig.dbName,
     });
     console.log('Connected to MongoDB with Mongoose');
