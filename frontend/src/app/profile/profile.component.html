@@ -1,45 +1,45 @@
-<div class="profile-container">
-  <!-- Display user profile information -->
-  <h1>Profile</h1>
-  <p><strong>Username:</strong> {{ userProfile.username }}</p>
-  <p><strong>Email:</strong> {{ userProfile.email }}</p>
 
-  <!-- Display user's habits -->
-  <h3>Habits</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Duration</th>
-        <th>Description</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let habit of habits">
-        <td>{{ habit.habit }}</td> <!-- Habit title -->
-        <td>{{ habit.date | date: 'shortDate' }}</td> <!-- Date of the habit -->
-        <td>{{ habit.time }}</td> <!-- Time of the habit -->
-        <td>{{ habit.duration }} minutes</td> <!-- Duration of the habit -->
-        <td>{{ habit.description }}</td> <!-- Description of the habit -->
-        <td>
-          <!-- Actions: Delete and Modify -->
-          <button mat-raised-button color="warn" (click)="deleteHabit(habit._id)">
-            Delete
-          </button>
-          <button mat-raised-button color="primary" (click)="modifyHabit(habit)">
-            Modify
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- Profile Section -->
+  <div class="container mt-4">
+    <div class="text-center mb-4">
+      <h1 class="display-4">Profile</h1>
+    </div>
+    <div class="profile-header">
+      <h2 class="mt-3"><p><strong>Username:</strong> {{ userProfile.username }}</p></h2>
+      <p><strong>Email:</strong> {{ userProfile.email }}</p>
+  </div>
 
-  <!-- Loading spinner -->
-  <div *ngIf="isLoading">Loading profile...</div>
+    <!-- Habit List Section -->
+    <div class="mt-4">
+      <h4>Your Habits</h4>
+      <div class="row">
+          <!-- Habit Card Template -->
+          <div class="col-md-4" *ngFor="let habit of habits">
+              <div class="habit-card">
+                  <div class="habit-title">{{ habit.habit }}</div>
+                  <p>{{ habit.description }}</p>
+                  <div>
+                      <button class="btn btn-danger btn-sm me-2" (click)="deleteHabit(habit._id)">Delete</button>
+                      <button class="btn btn-primary btn-sm" (click)="modifyHabit(habit)">Modify</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
 
-  <!-- Error message -->
-  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-</div>
+
+    <!-- Loading Spinner -->
+    <div *ngIf="isLoading" class="text-center my-4">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="alert alert-danger mt-4">
+      {{ errorMessage }}
+    </div>
+  </div>
+
+
+

@@ -1,37 +1,114 @@
+/* Base Sidebar Styling */
 .sidebar {
-    position: fixed;
-    width: 250px;
-    height: 100%;
-    background-color: #343a40;
-    color: white;
-    padding: 20px;
-    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+  min-height: 100vh;
+  width: 250px;
+  background-color: #343a40;
+  color: white;
+  transition: all 0.3s ease-in-out;
+}
+
+.sidebar.collapsed {
+  width: 70px;
+}
+
+.sidebar .nav-link {
+  color: #adb5bd;
+  font-size: 1rem;
+  padding: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.sidebar .nav-link.active {
+  color: white;
+  background-color: #0d6efd;
+}
+
+
+.sidebar .nav-link:hover {
+  color: white;
+}
+
+.sidebar .nav-item {
+  margin-bottom: 10px;
+}
+
+/* Sidebar Header Button Styling */
+.sidebar button {
+  font-size: 1.2rem;
+}
+
+/* Collapsed Sidebar Styling */
+.sidebar.collapsed .nav-link {
+  text-align: center;
+  padding-left: 0;
+}
+
+.sidebar.collapsed span {
+  display: none;
+}
+
+.logout-section {
+  margin-top: auto; /* Push the logout button to the bottom */
+  padding-top: 10px;
+  border-top: 1px solid #495057; /* Optional: Divider for visual separation */
+}
+
+.sidebar .nav-link i {
+  font-size: 1.5rem; /* Icon size */
+}
+
+.sidebar .nav-link .link-text {
+  font-size: 1rem;
+}
+
+.sidebar .nav-link.active {
+  color: white;
+  background-color: #0d6efd;
+}
+
+.sidebar .nav-link:hover {
+  color: white;
+}
+
+.logout-section {
+  margin-top: auto; /* Push logout to the bottom */
+  padding-top: 10px;
+  text-align: center; 
+  border-top: 1px solid #495057; /* Optional separator */
+}
+
+/* Collapsed Sidebar */
+.sidebar.collapsed {
+  width: 70px; /* Smaller width for collapsed sidebar */
+}
+
+.sidebar.collapsed .icon {
+   margin-left: 10px;
+}
+
+.sidebar.collapsed .link-text {
+  display: none; /* Hide text in collapsed mode */
+}
+
+.habit-icon {
+  font-size: 2rem; /* Adjust size */
+  color: #0d6efd; /* Adjust color */
+}
+
+/* Media Query: Small Screens */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 70px; /* Smaller width on small screens */
   }
-  
-  .sidebar .nav-links {
-    list-style: none;
-    padding: 0;
+
+  .sidebar .nav-link {
+    justify-content: center; /* Center the icon */
   }
-  
-  .sidebar .nav-links li {
-    margin: 15px 0;
+
+  .sidebar .link-text {
+    display: none; /* Hide the text */
   }
-  
-  .sidebar .nav-links a,
-  .sidebar .nav-links button {
-    text-decoration: none;
-    color: white;
-    display: block;
-    padding: 10px;
-    text-align: center;
-    border: none;
-    background: none;
-    cursor: pointer;
-  }
-  
-  .sidebar .nav-links a.active,
-  .sidebar .nav-links button:hover {
-    background-color: #495057;
-    border-radius: 5px;
-  }
-  
+}

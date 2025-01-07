@@ -29,8 +29,7 @@ export class ProfileComponent implements OnInit {
     this.isLoading = true;
     this.userService.getProfile().subscribe({
       next: (data) => {
-        this.userProfile = { username: data.username, email: data.email }; // User details
-        this.habits = data.habits; // User habits
+        this.userProfile = { username: "john", email: "johndoe@mail.com" }; // User details
         this.isLoading = false;
       },
       error: (err) => {

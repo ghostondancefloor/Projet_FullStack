@@ -14,7 +14,7 @@ export class LoginComponent {
     username: null,
     password: null,
   };
-  isLoginFailed = false;
+  isLoginFailed = false; // Remplacer par false pour désactiver l'affichage d'erreur
   errorMessage = '';
 
   constructor(
@@ -27,26 +27,23 @@ export class LoginComponent {
   onSubmit(): void {
     const { username, password } = this.form;
 
-    this.authService.login({ username, password }).subscribe({
-      next: (data) => {
-        // Save the user data to sessionStorage
-        this.storageService.saveUser(data);
+    // Simuler une connexion réussie
+    const fakeData = {
+      username: username || 'TestUser', // Simuler un utilisateur
+      token: 'fake-jwt-token', // Simuler un token
+    };
 
-        // Display success message
-        this.snackBar.open(`🎉 Welcome back, ${data.username}!`, 'Close', {
-          duration: 5000,
-          verticalPosition: 'top',
-          horizontalPosition: 'center',
-        });
+    // Sauvegarder les données utilisateur simulées
+    this.storageService.saveUser(fakeData);
 
-        // Redirect to the calendar page
-        this.router.navigate(['/calendar']);
-      },
-      error: (err) => {
-        this.errorMessage = err.error.message || 'An error occurred during login.';
-        this.isLoginFailed = true;
-        console.error('Login Error:', err); // Debugging log
-      },
+    // Afficher un message de succès
+    this.snackBar.open(`🎉 Welcome back, ${fakeData.username}!`, 'Close', {
+      duration: 5000,
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
     });
+
+    // Rediriger vers la page de calendrier
+    this.router.navigate(['/calendar']);
   }
 }

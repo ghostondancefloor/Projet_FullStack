@@ -1,4 +1,3 @@
-// src/app/app.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
@@ -10,7 +9,7 @@ import { StorageService } from './services/storage.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  isLoggedIn = false; // Tracks whether the user is logged in
+  isLoggedIn = true; // Simulate the logged-in state
   title = 'frontend'; // Application title
   username?: string; // Stores the logged-in user's username
 
@@ -21,12 +20,12 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Check and update login status on initialization
+    // Simulate the logged-in state
     this.updateLoginStatus();
 
     // Subscribe to login status changes dynamically
     this.storageService.watchLoginStatus().subscribe((isLoggedIn) => {
-      this.isLoggedIn = isLoggedIn;
+      this.isLoggedIn = true; // Force login state to true for testing
       this.updateUserInfo();
     });
   }
@@ -35,7 +34,7 @@ export class AppComponent implements OnInit {
    * Updates login status and user information.
    */
   private updateLoginStatus(): void {
-    this.isLoggedIn = this.storageService.isLoggedIn();
+    this.isLoggedIn = true; // Force login state to true for testing
     this.updateUserInfo();
   }
 
@@ -45,7 +44,7 @@ export class AppComponent implements OnInit {
   private updateUserInfo(): void {
     if (this.isLoggedIn) {
       const user = this.storageService.getUser();
-      this.username = user?.username || '';
+      this.username = user?.username || 'TestUser'; // Simulate a username
     } else {
       this.username = undefined;
     }
