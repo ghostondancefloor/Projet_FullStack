@@ -20,18 +20,18 @@ id="sidebar"
                   <i class="bi bi-calendar4-week me-2 icon"></i><span class="link-text">Calendar</span>
               </a>
           </li>
-          <li>
-              <a routerLink="/profile" routerLinkActive="active" class="nav-link text-white">
-                  <i class="bi bi-person me-2 icon"></i><span class="link-text">Profile</span>
-              </a>
-          </li>
       </ul>
       <div class="logout-section mt-auto">
+        <div class="nav nav-pills flex-column mb-auto nav-item" >
+            <a routerLink="/profile" routerLinkActive="active" class="nav-link text-white">
+                <i class="bi bi-person me-2 icon"></i><span class="link-text">Profile</span>
+            </a></div>
         <button
           (click)="logout()"
           class="btn btn-link nav-link text-white text-start w-100"
         >
           <i class="bi bi-box-arrow-right me-2 icon"></i> <span class="link-text">Logout</span>
         </button>
+        
         </div>
   </nav>

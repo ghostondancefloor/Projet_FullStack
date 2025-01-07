@@ -26,7 +26,8 @@
   z-index: 2;
 }
 .hero h1 {
-  font-size: 4rem;
+  font-size: 5rem;
+  line-height: 1.5;
   font-weight: bold;
   text-shadow: 2px 2px 5px black;
 }
