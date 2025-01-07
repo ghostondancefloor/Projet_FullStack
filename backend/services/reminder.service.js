@@ -65,7 +65,7 @@ async function sendUpcomingHabitReminders() {
 }
 
 // Schedule the reminder job to run every 15 minutes
-cron.schedule('* * * * *', () => {
+cron.schedule('0,45 * * * *', () => {
   console.log('Running reminder job...');
   sendUpcomingHabitReminders();
 });
