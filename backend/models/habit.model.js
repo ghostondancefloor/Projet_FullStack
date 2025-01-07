@@ -6,7 +6,7 @@ const habitSchema = new mongoose.Schema({
   description: { type: String, required: true },
   end: { type: String },
   frequency: { type: String, required: true },
-  date: { type: String }, // Start date
+  date: { type: Date }, // Start date
   time: { type: String, required: true }, // Start time
   duration: { type: Number, required: true, min: 1 }, // Duration in minutes
   streak: { type: Number, default: 0 },

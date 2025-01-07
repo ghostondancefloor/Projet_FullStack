@@ -1,5 +1,7 @@
 // server.js
 require('dotenv').config(); // Load environment variables
+require('./services/reminder.service');
+
 const express = require('express');
 const session = require('express-session');
 const cookieSession = require('cookie-session'); // Import cookie-session
