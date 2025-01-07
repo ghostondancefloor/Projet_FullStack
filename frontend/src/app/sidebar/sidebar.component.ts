@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, OnInit  } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { StorageService } from '../services/storage.service';
@@ -10,6 +10,7 @@ import { StorageService } from '../services/storage.service';
 })
 export class SidebarComponent {
   isLoggedIn: boolean = false;
+  isSidebarCollapsed: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -19,6 +20,12 @@ export class SidebarComponent {
 
   ngOnInit(): void {
     this.isLoggedIn = this.storageService.isLoggedIn();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  checkScreenSize(): void {
+    const screenWidth = window.innerWidth;
+    this.isSidebarCollapsed = screenWidth <= 768; // Collapse for small screens
   }
 
   logout(): void {

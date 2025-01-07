@@ -21,10 +21,11 @@ export class CalendarComponent implements OnInit {
     initialView: 'timeGridWeek',
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin],
     headerToolbar: {
-      left: 'prev,next today addHabit',
+      left: 'prev,next today',
       center: 'title',
       right: 'timeGridWeek,dayGridMonth,listWeek',
     },
+    
     customButtons: {
       addHabit: {
         text: 'Add Habit',
